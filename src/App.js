@@ -17,12 +17,23 @@ class App extends Component {
       messages: myJson
     });
   }
-
+  readMessage = (id) =>{
+    console.log("readMessage", id)
+    const updatedMessages = this.state.messages.map( message => {
+      if (message.id === id) {
+        message.read = !message.read;
+      }
+      return message
+    } )
+    this.setState({
+      messages: updatedMessages
+    })
+  }
   render() {
     return (
       <div className="App">
         <Toolbar></Toolbar>
-        <MessageList messages={this.state.messages}></MessageList>
+        <MessageList messages={this.state.messages} readMessage={this.readMessage}></MessageList>
       </div>
     );
   }

@@ -5,7 +5,7 @@ import '../App.css';
 class Message extends Component {
     render(){
         return(
-            <div class="row message unread">
+            <div className={this.props.message.read ?"row message read":"row message unread"} onClick={() => this.props.readMessage(this.props.message.id)}>
             <div class="col-xs-1">
               <div class="row">
                 <div class="col-xs-2">
