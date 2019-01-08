@@ -4,8 +4,11 @@ import Message from "./Message.js"
 class MessageList extends Component{
     render(){
         return(
-            <Message></Message>
-        )
+            this.props.messages.map(message => {
+              return   <Message message={message}></Message>
+            })
+            
+        );
     }
 }
 export default MessageList
