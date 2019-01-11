@@ -11,17 +11,14 @@ class Toolbar extends Component {
             unread messages
           </p>
       
-          <a class="btn btn-danger">
-            <i class="fa fa-plus"></i>
+          <a class="btn btn-default">
+            <i class={true ? "fa fa-check-square-o" : "fa fa-minus-square-o"}></i>
           </a>
       
-          <button class="btn btn-default">
-            <i class="fa fa-minus-square-o"></i>
-          </button>
       
-          <button class="btn btn-default">Mark As Read</button>
+          <button onClick= {this.props.allRead} class="btn btn-default">Mark As Read</button>
       
-          <button class="btn btn-default">Mark As Unread</button>
+          <button onClick= {this.props.allUnread} class="btn btn-default">Mark As Unread</button>
       
           <select class="form-control label-select">
             <option>Apply label</option>
