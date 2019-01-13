@@ -25,7 +25,7 @@ const Toolbar = (props) => {
       
           <button onClick= {props.allUnread} className="btn btn-default">Mark As Unread</button>
       
-          <select className="form-control label-select" onChange={(event)=>props.applyLabel(event.target.value)}>
+          <select className="form-control label-select" onChange={(event)=>{props.applyLabel(event.target.value); event.target.selectedIndex=0}}>
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
