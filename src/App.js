@@ -57,6 +57,23 @@ class App extends Component {
     this.setState({ messages })
   }
 
+  async removeLabel(label){
+    await this.updateMessage({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "removeLabel",
+      "label": label
+    })
+    const messages = this.state.messages.map(message => {
+      let index = message.labels.indexOf(label)
+      if(message.selected&&index > -1) {
+        return {...message, labels: [...message.labels.slice(0, index),...message.labels.slice(index+1)]} 
+      }else {
+        return message
+      }
+    })
+    this.setState({messages})
+  }
+
   allRead = () => {
     console.log("yeeeeee")
     const selMessages = this.state.messages.map( message => {
@@ -147,7 +164,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Toolbar allRead ={this.allRead} allUnread={this.allUnread} applyLabel ={this.applyLabel.bind(this)} />
+        <Toolbar allRead ={this.allRead} allUnread={this.allUnread} applyLabel ={this.applyLabel.bind(this)} removeLabel ={this.removeLabel.bind(this)} />
         <MessageList messages={this.state.messages} readMessage={this.readMessage} messageSelect={this.messageSelect} toggleStar={this.toggleStar.bind(this)}></MessageList>
         <NyanScrollBar draggable targetAxis = "horizontal"/>
       </div>
