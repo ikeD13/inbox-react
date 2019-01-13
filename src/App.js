@@ -17,6 +17,28 @@ class App extends Component {
       messages: myJson
     });
   }
+  async fetchRequest(path, method, data) {
+    if (data) data = JSON.stringify(data)
+    return await fetch(`http://localhost:8082${path}`, {
+      method: method,
+      headers: {"Content-Type": "application/json","Accept": "application/json"},
+      body: data
+    })
+  }
+  async updateMessage(data) {
+    await this.fetchRequest("/api/messages", "PATCH", data)
+  }
+  async toggleStar (message){
+   const ii = this.state.messages.indexOf(message)
+    await this.updateMessage({"messageIds": [message.id],"command": "star","star": !message.starred})
+    this.setState({
+      messages: [
+        ...this.state.messages.slice(0, ii),
+        { ...message, ["starred"]: !message["starred"] },
+        ...this.state.messages.slice(ii + 1),
+      ]
+    })
+  }
   allRead = () => {
     console.log("yeeeeee")
     const selMessages = this.state.messages.map( message => {
@@ -108,7 +130,7 @@ class App extends Component {
     return (
       <div className="App">
         <Toolbar allRead ={this.allRead} allUnread={this.allUnread} />
-        <MessageList messages={this.state.messages} readMessage={this.readMessage} messageSelect={this.messageSelect}></MessageList>
+        <MessageList messages={this.state.messages} readMessage={this.readMessage} messageSelect={this.messageSelect} toggleStar={this.toggleStar.bind(this)}></MessageList>
       </div>
     );
   }
