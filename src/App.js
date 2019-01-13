@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Toolbar from './Components/Toolbar.js'
 import MessageList from './Components/MessageList'
+import {NyanScrollBar} from "react-nyan-stroller"
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -39,6 +41,22 @@ class App extends Component {
       ]
     })
   }
+
+  async applyLabel(label) {
+    await this.updateMessage({
+      "messageIds": this.state.messages.filter(message => message.selected).map(message => message.id),
+      "command": "addLabel",
+      "label": label
+    })
+
+    const messages = this.state.messages.map(message => (
+      message.selected && !message.labels.includes(label) ?
+        { ...message, labels: [...message.labels, label].sort() } :
+        message
+    ))
+    this.setState({ messages })
+  }
+
   allRead = () => {
     console.log("yeeeeee")
     const selMessages = this.state.messages.map( message => {
@@ -129,8 +147,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Toolbar allRead ={this.allRead} allUnread={this.allUnread} />
+        <Toolbar allRead ={this.allRead} allUnread={this.allUnread} applyLabel ={this.applyLabel.bind(this)} />
         <MessageList messages={this.state.messages} readMessage={this.readMessage} messageSelect={this.messageSelect} toggleStar={this.toggleStar.bind(this)}></MessageList>
+        <NyanScrollBar draggable targetAxis = "horizontal"/>
       </div>
     );
   }

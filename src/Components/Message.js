@@ -19,6 +19,7 @@ const Message = (props) => {
                 </div>
               </div>
               <div className="col-xs-11" onClick={()=>props.readMessage(props.message.id)}>
+                {props.message.labels.map((element,index)=><span key={index} className = "label label-warning">{element}</span>)}
                 <a href="#">
                  {props.message.subject}
                 </a>
