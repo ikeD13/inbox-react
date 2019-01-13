@@ -41,6 +41,23 @@ class App extends Component {
       ]
     })
   }
+ toggleAllSelected (){
+  const selectedMessages = this.state.messages.map((message)=>{
+    if (!!message.selected){
+      return message
+    }else {
+     return {...message, selected:!message.selected}
+    }
+  })
+  this.setState({messages: selectedMessages})
+ }
+
+toggleAllDeselect(){
+  const selectedMessages = this.state.messages.map((message)=>{
+    return !!message.selected ? {...message,selected:!message.selected}: message
+  })
+  this.setState({messages:selectedMessages})
+} 
 
   async applyLabel(label) {
     await this.updateMessage({
@@ -164,7 +181,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Toolbar allRead ={this.allRead} allUnread={this.allUnread} applyLabel ={this.applyLabel.bind(this)} removeLabel ={this.removeLabel.bind(this)} />
+        <Toolbar messages={this.state.messages} allRead ={this.allRead} allUnread={this.allUnread} applyLabel ={this.applyLabel.bind(this)} removeLabel ={this.removeLabel.bind(this)}  toggleAllSelected={this.toggleAllSelected.bind(this)} toggleAllDeselect={this.toggleAllDeselect.bind(this)}/>
         <MessageList messages={this.state.messages} readMessage={this.readMessage} messageSelect={this.messageSelect} toggleStar={this.toggleStar.bind(this)}></MessageList>
         <NyanScrollBar draggable targetAxis = "horizontal"/>
       </div>

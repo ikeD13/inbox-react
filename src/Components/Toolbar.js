@@ -1,8 +1,23 @@
 import React, {Component} from 'react';
 import '../App.css';
 
+const selectedIconDeterminer = (messages) => {
+  let numOfSelected = messages.reduce((a,e)=>{
+    e.selected?a++:a+=0
+    return a
+  },0)
+  if(numOfSelected === messages.length){
+    return "fa fa-check-square-o"
+  }else if(numOfSelected === 0){
+    return "fa fa-square-o"
+  }else{
+    return "fa fa-minus-square-o"
+  }
+}
+
 const Toolbar = (props) => {
     
+  const check = selectedIconDeterminer(props.messages)
     return(
         
       
@@ -16,8 +31,8 @@ const Toolbar = (props) => {
             unread messages
           </p>
       
-          <a className="btn btn-default">
-            <i className={true ? "fa fa-check-square-o" : "fa fa-minus-square-o"}></i>
+          <a className="btn btn-default" onClick ={()=>check === "fa fa-check-square-o"? props.toggleAllDeselect():props.toggleAllSelected()}>
+            <i className={check}></i>
           </a>
       
 
