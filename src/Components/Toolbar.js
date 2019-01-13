@@ -14,9 +14,14 @@ const selectedIconDeterminer = (messages) => {
     return "fa fa-minus-square-o"
   }
 }
-
+const messageNumber = (messages) => {
+  return messages.reduce((acc, message)=> {
+    message.read ?  acc+=0 : acc++
+    return acc
+  },0)
+}
 const Toolbar = (props) => {
-    
+  const numberUnread = messageNumber(props.messages)
   const check = selectedIconDeterminer(props.messages)
     return(
         
@@ -27,8 +32,8 @@ const Toolbar = (props) => {
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">2</span>
-            unread messages
+            <span className="badge badge">{numberUnread}</span>
+            unread {numberUnread === 1?"message":"messages"}
           </p>
       
           <a className="btn btn-default" onClick ={()=>check === "fa fa-check-square-o"? props.toggleAllDeselect():props.toggleAllSelected()}>
